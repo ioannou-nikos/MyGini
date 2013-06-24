@@ -13,25 +13,23 @@ import mygini.validate.Tokens;
 /**
  *
  * @author nikolas
- * This class performs the validation of all phone numbers stored within the
- * database
  */
-public class PhoneValidate {
-    
-    public static void main(String args[])throws ClassNotFoundException, SQLException{
+public class TKValidate {
+
+    public static void main(String args[]) throws ClassNotFoundException, SQLException {
         GConnection gc = new GConnection("root", "", "localhost", "3306", "gini_dat");
-        
-        String sql = "SELECT person_id, phone_id, phone FROM person_phones ORDER BY person_id";
+
+        String sql = "SELECT person_id, auto_num, tk FROM person_diefthinsis ORDER BY person_id";
         ResultSet rs = gc.getResultSet(sql);
         String msg;
         long err_count = 0;
-        while(rs.next()){
-            String phone = rs.getString("phone");
+        while (rs.next()) {
+            String tk = rs.getString("tk");
             long person_id = rs.getLong("person_id");
-            long phone_id = rs.getLong("phone_id");
-            if (!Tokens.validPhone(phone)){
+            long auto_num = rs.getLong("auto_num");
+            if (!Tokens.validPostalCode(tk)) {
                 err_count++;
-                msg = "(" + err_count + ")->" + person_id + " -> " + phone_id + " -> " + phone; 
+                msg = "(" + err_count + ")->" + person_id + " -> " + auto_num + " -> " + tk;
                 System.out.println(msg);
             }
         }
